@@ -1,0 +1,67 @@
+import dialogsReducer from "./dialogs-reducer";
+import profileReducer from "./profile-reducer";
+import sidebarReducer from "./sidebar-reducer";
+
+let store = {
+    _state: {
+        dialogsPage: {
+            messages: [
+                { id: 1, message: 'Hello' },
+                { id: 2, message: 'Hi' },
+                { id: 3, message: 'What are you doing tonight?' },
+                { id: 4, message: 'Not decided yet' },
+                { id: 5, message: 'How about clubbing?' },
+                { id: 6, message: 'Ye.. Sure!' },
+                { id: 7, message: 'See you soon' },
+                { id: 8, message: 'Bye' }
+            ],
+            dialogs: [
+                { id: 1, name: 'Alex', ava: `https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQCwiNUolGE_ybMJdnOfdtkwG0knyyporBK6A&usqp=CAU` },
+                { id: 2, name: 'Sveta', ava: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS7E51tmHxujSQLzkC3ZZ_OmoqynSghQPmbYA&usqp=CAU'},
+                { id: 3, name: 'Artur', ava: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSshW2NpetcJKgpq6jaRpnFR2uxuGAXWEN8KQ&usqp=CAU'},
+                { id: 4, name: 'Lera', ava: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS-kEMUrjjp-dl3Y1q5b-lNC_m10w_ta96cJA&usqp=CAU'},
+                { id: 5, name: 'Mikola', ava: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRj9_BYmlCyl0Ea9J8KoLOcmoPpZQ-tWpTW5w&usqp=CAU'},
+                { id: 6, name: 'Marina', ava: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR8e9_pBuEdTiKdBm0Gw3eWWCBb1CxIAbI8AQ&usqp=CAU'}
+            ],
+
+        },
+        profilePage: {
+            posts: [
+                { id: 1, message: 'Hello, do you really want it?', likesCount: 11 },
+                { id: 2, message: 'Yes, it\'s my first time!!!', likesCount: 28 },
+                { id: 3, message: 'I learn React by Dymych!', likesCount: 54 },
+                { id: 4, message: 'Congratul ates!', likesCount: 2 }
+            ]
+        }
+        ,
+        sidebar: [
+            {path: '/profile' , page: 'Profile' },
+            {path: '/dialogs' , page:'Message' },
+            {path: '/news' , page:'News' },
+            {path: '/music' , page:'Music' },
+            {path: '/settings' , page:'Settings'}
+        ]
+
+    },
+    _callSubscriber() {},
+    getState() {
+        return this._state
+    },
+    subscribe(observer) {
+        this._callSubscriber = observer
+    },
+    dispatch(action) {
+        this._state.dialogsPage = dialogsReducer(this._state.dialogsPage, action);
+        this._state.profilePage = profileReducer(this._state.profilePage, action);
+        this._state.sidebar = sidebarReducer(this._state.sidebar, action);
+
+        this._callSubscriber(this._state);
+    }
+
+};
+
+export default store;
+
+
+
+

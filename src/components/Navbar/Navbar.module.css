@@ -1,0 +1,20 @@
+.nav {
+  grid-area: n;
+  background-color: rgb(225, 135, 39);
+  padding: 20px;
+  border-radius: 10px;
+}
+
+.nav img {
+  width: 25px;
+}
+
+.item a{
+  position: relative;
+  color: gold;
+  text-decoration: none;
+}
+
+.item a.active {
+  color: rgb(255, 255, 255);
+}
