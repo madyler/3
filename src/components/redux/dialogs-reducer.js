@@ -1,12 +1,7 @@
 const ADD_MESSAGE = 'ADD_MESSAGE';
 
 
-export let addMessageActionCreator = (value) => {
-    return {
-        type: ADD_MESSAGE,
-        text: value
-    }
-};
+export let addMessageActionCreator = (value) => ({type: ADD_MESSAGE, text: value})
 
 let initialState = {
     messages: [

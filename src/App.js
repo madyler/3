@@ -1,5 +1,5 @@
 import React from 'react';
-import {BrowserRouter, Route, withRouter} from 'react-router-dom';
+import {BrowserRouter, Route, withRouter, Switch, Redirect} from 'react-router-dom';
 import './App.css';
 import Music from './components/Music/Music';
 import News from './components/News/News';
@@ -19,8 +19,16 @@ const DialogsContainer = React.lazy(() => import('./components/Dialogs/DialogsCo
 const UsersContainer = React.lazy(() => import('./components/Users/UsersContainer'));
 
 class App extends React.Component {
+    catchAllUnhandledErrors = (props) => {
+        console.log(props)
+        console.log(props.reason.message)
+    }
     componentDidMount() {
         this.props.initializeApp()
+        window.addEventListener('unhandledrejection', this.catchAllUnhandledErrors)
+    }
+    componentWillUnmount() {
+        window.removeEventListener('unhandledrejection', this.catchAllUnhandledErrors)
     }
 
     render() {
@@ -32,13 +40,17 @@ class App extends React.Component {
                 <HeaderContainer/>
                 <NavbarContainer/>
                 <div className='app-wrapper-content'>
-                    <Route path='/dialogs' render={withSuspense(DialogsContainer)}/>
-                    <Route path='/profile/:userId?' render={withSuspense(ProfileContainer)}/>
-                    <Route path='/news' render={() => < News/>}/>
-                    <Route path='/settings' render={() => < Settings/>}/>
-                    <Route path='/music' render={() => < Music/>}/>
-                    <Route path='/users' render={withSuspense(UsersContainer)}/>
-                    <Route path='/login' render={() => < Login/>}/>
+                    <Switch>
+                        <Route exact path='/' render={() => <Redirect to={'/profile'}/>}/>
+                        <Route path='/dialogs' render={withSuspense(DialogsContainer)}/>
+                        <Route path='/profile/:userId?' render={withSuspense(ProfileContainer)}/>
+                        <Route path='/news' render={() => < News/>}/>
+                        <Route path='/settings' render={() => < Settings/>}/>
+                        <Route path='/music' render={() => < Music/>}/>
+                        <Route path='/users' render={withSuspense(UsersContainer)}/>
+                        <Route path='/login' render={() => < Login/>}/>
+                        <Route path='*' render={() => <div className='app-component'>404 NOT FOUND</div>}/>
+                    </Switch>
                 </div>
             </div>
         )
@@ -61,5 +73,6 @@ const SamuraiJSApp = (props) => {
         </BrowserRouter>
     </React.StrictMode>
 }
+
 
 export default SamuraiJSApp;

@@ -4,7 +4,7 @@ import * as axios from "axios";
 const instant = axios.create({
     withCredentials: true,
     baseURL: 'https://social-network.samuraijs.com/api/1.0/',
-    headers: {"API-KEY": "00adb810-fa6f-4427-8bcb-00218cb88b97"}
+    headers: {"API-KEY": "00adb810-fa6f-4427-8bcb-00218cb88b97_"}
 })
 
 export const usersAPI = {
@@ -48,12 +48,16 @@ export const authAPI = {
     me() {
         return instant.get(`auth/me`)
     },
-    login(email, password, rememberMe) {
-        return instant.post(`auth/login`, {email, password, rememberMe})
+    login(email, password, rememberMe=false, captcha=null) {
+        return instant.post(`auth/login`, {email, password, rememberMe, captcha})
     },
     logout() {
         return instant.delete(`auth/login`)
     }
 }
 
-
+export const securityAPI = {
+    getCaptchaUrl() {
+        return instant.get(`security/get-captcha-url`)
+    }
+}

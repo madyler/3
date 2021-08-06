@@ -1,12 +1,11 @@
 import React from "react";
 import style from "./FormsControls.module.css"
-import {maxLengthCreator, required} from "../../../utils/validators/validators";
-import {Field} from "react-final-form";
+import {Field} from "redux-form";
 
 export const FormsControls = ({meta:{touched, error}, children}) => {
     const hasError = touched && error;
     return (
-        <div className={style.formsControlls + " " + (hasError ? style.error : "")}>
+        <div className={style.formsControls + " " + (hasError ? style.error : "")}>
             <div>
                 {children}
             </div>

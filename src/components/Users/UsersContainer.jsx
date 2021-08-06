@@ -21,28 +21,28 @@ import {
 class UsersContainer extends React.Component {
 
     componentDidMount() {
-        const {currentPage, pageSize,requestUsers} = this.props
+        const {currentPage, pageSize, requestUsers} = this.props
         requestUsers(currentPage, pageSize)
     };
 
-    changePage = (pageNumber) => {
+    onPageChanged = (pageNumber) => {
         const {pageSize, requestUsers} = this.props
         requestUsers(pageNumber, pageSize)
     }
 
     render() {
         return <>
-            {this.props.isFetching ? <Preloader/> :
-                <Users
-                    users={this.props.users}
-                    totalUsersCount={this.props.totalUsersCount}
-                    pageSize={this.props.pageSize}
-                    currentPage={this.props.currentPage}
-                    changePage={this.changePage}
-                    unfollow={this.props.unfollow}
-                    follow={this.props.follow}
-                    followingInProgress={this.props.followingInProgress}
-                />}
+            {this.props.isFetching ? <Preloader/> : null}
+            <Users
+                users={this.props.users}
+                totalUsersCount={this.props.totalUsersCount}
+                pageSize={this.props.pageSize}
+                currentPage={this.props.currentPage}
+                onPageChanged={this.onPageChanged}
+                unfollow={this.props.unfollow}
+                follow={this.props.follow}
+                followingInProgress={this.props.followingInProgress}
+            />
         </>
     }
 }
@@ -61,10 +61,11 @@ const mapStateToProps = (state) => {
 export default compose(
     withAuthRedirect,
     connect(mapStateToProps, {
-    follow,
-    unfollow,
-    setUsers,
-    setTotalUsersCount,
-    toggleIsFetching,
-    requestUsers})
+        follow,
+        unfollow,
+        setUsers,
+        setTotalUsersCount,
+        toggleIsFetching,
+        requestUsers
+    })
 )(UsersContainer);

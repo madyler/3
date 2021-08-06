@@ -4,12 +4,12 @@ import User from "./User";
 
 
 const Users = ({
-                   totalUsersCount, pageSize, currentPage, changePage,
+                   totalUsersCount, pageSize, currentPage, onPageChanged,
                    users, follow, unfollow, followingInProgress
                }) => {
     return <div>
         <Paginator pageSize={pageSize}
-                   changePage={changePage}
+                   onPageChanged={onPageChanged}
                    currentPage={currentPage}
                    totalItemsCount={totalUsersCount}
         />

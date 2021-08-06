@@ -1,31 +1,25 @@
 import React from 'react';
-import {Field, Form} from "react-final-form";
-import { maxLengthCreator, required } from '../../../utils/validators/validators';
+import {maxLengthCreator, required} from '../../../utils/validators/validators';
 import {Textarea} from "../../commons/FormsControls/FormsControls";
+import {Field, reduxForm} from "redux-form";
 
-
-const composeValidators = (...validators) => value =>
-    validators.reduce((error, validator) => error || validator(value), undefined)
+const maxLength20 = maxLengthCreator(20)
 
 const AddNewPostForm = (props) => {
     return (
-            <Form onSubmit={(value) => {
-                props.addPost(value.addNewPost)
-            }}>
-                {({handleSubmit}) => (
-                    <form onSubmit={handleSubmit}>
-                        <div>
-                            <Field component={Textarea} name="addNewPost"
-                                   validate={composeValidators(required, maxLengthCreator(20))}
-                                    placeholder="Enter new post text"/>
-                        </div>
-                        <div>
-                            <button>Add post</button>
-                        </div>
-                    </form>
-                )}
-            </Form>
+        <form onSubmit={props.handleSubmit}>
+            <div>
+                <Field component={Textarea} name="addNewPost"
+                       validate={[required, maxLength20]}
+                       placeholder="Enter new post text"/>
+            </div>
+            <div>
+                <button>Add post</button>
+            </div>
+        </form>
     )
 }
+
+export const AddNewPostFormRedux = reduxForm({form:"profileAddPostForm"})(AddNewPostForm)
 
 export default AddNewPostForm;
