@@ -1,10 +1,8 @@
 import reportWebVitals from './reportWebVitals';
 import ReactDOM from "react-dom";
 import React from "react";
-import App from "./App";
 import './index.css';
 import SamuraiJSApp from "./App";
-import store from "./components/redux/redux-store";
 
 
 ReactDOM.render(

@@ -1,5 +1,5 @@
 import React from "react";
-import {Textarea} from "../commons/FormsControls/FormsControls";
+import {Textarea} from "../commons/FormsControls/FormControl";
 import {maxLengthCreator, required} from "../../utils/validators/validators";
 import {Field, reduxForm} from "redux-form";
 

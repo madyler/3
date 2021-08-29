@@ -1,16 +1,16 @@
 import React from 'react';
 import {maxLengthCreator, required} from '../../../utils/validators/validators';
-import {Textarea} from "../../commons/FormsControls/FormsControls";
+import {Textarea} from "../../commons/FormsControls/FormControl";
 import {Field, reduxForm} from "redux-form";
 
-const maxLength20 = maxLengthCreator(20)
+const maxLength20 = maxLengthCreator(20);
 
-const AddNewPostForm = (props) => {
+const AddNewPostForm = ({handleSubmit}) => {
     return (
-        <form onSubmit={props.handleSubmit}>
+        <form onSubmit={handleSubmit}>
             <div>
                 <Field component={Textarea} name="addNewPost"
-                       validate={[required, maxLength20]}
+                       validate={[maxLength20]}
                        placeholder="Enter new post text"/>
             </div>
             <div>
@@ -18,7 +18,7 @@ const AddNewPostForm = (props) => {
             </div>
         </form>
     )
-}
+};
 
 export const AddNewPostFormRedux = reduxForm({form:"profileAddPostForm"})(AddNewPostForm)
 

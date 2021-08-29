@@ -1,7 +1,21 @@
 const ADD_MESSAGE = 'ADD_MESSAGE';
 
+type AddMessageActionCreatorType = {
+    type: typeof ADD_MESSAGE
+    text: string | null
+}
+export let addMessageActionCreator = (value: string): AddMessageActionCreatorType => ({type: ADD_MESSAGE, text: value})
 
-export let addMessageActionCreator = (value) => ({type: ADD_MESSAGE, text: value})
+type DialogType = {
+    id: number
+    name: string
+    ava: string
+}
+type MessageType = {
+    id: number
+    message: string
+}
+export type InitialStateType = typeof initialState
 
 let initialState = {
     messages: [
@@ -13,7 +27,7 @@ let initialState = {
         {id: 6, message: 'Ye.. Sure!'},
         {id: 7, message: 'See you soon'},
         {id: 8, message: 'Bye'}
-    ],
+    ] as Array<MessageType>,
     dialogs: [
         {
             id: 1,
@@ -45,11 +59,10 @@ let initialState = {
             name: 'Marina',
             ava: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR8e9_pBuEdTiKdBm0Gw3eWWCBb1CxIAbI8AQ&usqp=CAU'
         }
-    ],
-    injectedText: ''
+    ] as Array<DialogType>
 }
 
-const dialogsReducer = (state = initialState, action) => {
+const dialogsReducer = (state = initialState, action: any):InitialStateType => {
     switch (action.type) {
         case ADD_MESSAGE:
             return {...state, messages: [...state.messages, {id: 9, message: action.text}]}

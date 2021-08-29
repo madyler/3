@@ -2,23 +2,27 @@ import React, {useState} from 'react';
 import s from './ProfileInfo.module.css';
 import Preloader from "../../commons/Preloader/Preloader";
 import ProfileStatusWithHooks from "./ProfileStatusWithHooks";
-import defaultUserPhoto from '../../../assets/images/user.png'
-import ProfileDataForm from "./ProfileDataForm";
+import defaultUserPhoto from '../../../assets/images/user.png';
+import ProfileDataReduxForm from "./ProfileDataForm";
 
 
-const ProfileInfo = ({profile, status, updateStatus, isOwner, savePhoto}) => {
-    let [editMode, setEditMode] = useState(false)
+const ProfileInfo = ({profile, status, updateStatus, isOwner, savePhoto, saveProfile, ...props}) => {
+    let [editMode, setEditMode] = useState(false);
     if (!profile) {
         return <Preloader/>
     }
-    const onSubmit = (formData) => {
-        // login(formData.email, formData.password, formData.rememberMe)
-    }
     const onMainPhotoSelector = (e) => {
         if (e.target.files.length) {
-            savePhoto(e.target.files[0])
+            savePhoto(e.target.files[0]);
         }
-    }
+    };
+    const onSubmit = (formData) => {
+        saveProfile(formData).then(
+            () => {
+                setEditMode(false);
+            }
+        );
+    };
     return (
         <div>
             <div className={s.descriptionBlock}>
@@ -28,8 +32,10 @@ const ProfileInfo = ({profile, status, updateStatus, isOwner, savePhoto}) => {
 
 
                 {editMode
-                    ? <ProfileDataForm profile={profile} onSubmit={onSubmit} />
-                    : <ProfileData goToEditMode={() =>{setEditMode(true)}}
+                    ? <ProfileDataReduxForm initialValues={profile} onSubmit={onSubmit} profile={profile}/>
+                    : <ProfileData goToEditMode={() => {
+                        setEditMode(true)
+                    }}
                                    profile={profile}
                                    isOwner={isOwner}/>}
                 <ProfileStatusWithHooks status={status} updateStatus={updateStatus}/>
@@ -41,7 +47,9 @@ const ProfileInfo = ({profile, status, updateStatus, isOwner, savePhoto}) => {
 
 const ProfileData = ({profile, isOwner, goToEditMode}) => {
     return <div>
-        {isOwner && <div><button onClick={goToEditMode}>edit</button></div>}
+        {isOwner && <div>
+            <button onClick={goToEditMode}>edit</button>
+        </div>}
         <div>
             <b>Name</b>: {profile.fullName}
         </div>
@@ -64,7 +72,7 @@ const ProfileData = ({profile, isOwner, goToEditMode}) => {
 }
 
 
-const Contact = ({contactTitle, contactValue}) =>{
+export const Contact = ({contactTitle, contactValue}) => {
     return <div className={s.contact}>
         <b>{contactTitle}</b>: {contactValue}
     </div>

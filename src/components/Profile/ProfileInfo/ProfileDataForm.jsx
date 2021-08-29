@@ -1,58 +1,55 @@
 import React from "react";
-import {createField, Input} from "../../commons/FormsControls/FormsControls";
-import {Form} from "react-final-form";
+import {createField, Input, Textarea} from "../../commons/FormsControls/FormControl";
 import {maxLengthCreator} from "../../../utils/validators/validators";
 import style from "../../commons/FormsControls/FormsControls.module.css";
+import {reduxForm} from "redux-form";
+
+const maxLength20 = maxLengthCreator(20)
 
 
-const composeValidators = (...validators) => value =>
-    validators.reduce((error, validator) => error || validator(value), undefined)
-
-const ProfileDataForm = ({profile, onSubmit, error}) => (
-    <Form
-        onSubmit={onSubmit}
-        render={({handleSubmit}) => (
-            <form onSubmit={handleSubmit}>
-                <div>
-                    <button type="submit">save</button>
+const ProfileDataForm = (props) => {
+    return (
+        <form onSubmit={props.handleSubmit}>
+            <div>
+                <button>save</button>
+            </div>
+            <div className={style.Error}>
+                {props.error}
+            </div>
+            <div>
+                <b>Name</b>: {createField("Full name",
+                "fullName", [maxLength20], Input,{type: "text"})}
+            </div>
+            <div>
+                <b>Looking for a job</b>: {createField('',
+                'lookingForAJob',[], Input, {type: 'checkbox'})}
+            </div>
+            <div>
+                <b>My professional skills</b>: {createField(
+                'My professional skills',
+                'lookingForAJobDescription',
+                [maxLengthCreator(50)], Textarea,
+                {type: 'text'})}
+            </div>
+            <div>
+                <b>About me</b>: {createField('About me', 'aboutMe',
+                 [maxLengthCreator(50)], Textarea,{type: 'text'})}
+            </div>
+            <div>
+                <b>Contacts</b>: {Object.keys(props.profile.contacts).map(key => {
+                return <div key={key}>
+                    <b>{key}: {createField(key,"contacts." + key,[], Input,"string",)}</b>
                 </div>
-                <div>
-                    <b>Name</b>: {createField("Full name",
-                    "string",
-                    "fullName",
-                    Input,
-                    [])}
-                </div>
-                {createField('', 'checkbox', 'lookingForAJob', Input,
-                    null, '')}
-                {createField('My professional skills', 'text', 'lookingForAJobDescription',
-                    Input,
-                    composeValidators(null, maxLengthCreator(20)))}
-                {createField('About me', 'text', 'aboutMe',
-                    Input,
-                    composeValidators(null, maxLengthCreator(20)))}
+            })}
+            </div>
+        </form>
+    )
+}
 
-                {error && <div className={style.Error}>
-                    {error}
-                </div>
-                }
+const ProfileDataReduxForm = reduxForm(
+    {
+        form: 'edit-profile'
+    }
+)(ProfileDataForm)
 
-
-
-
-
-
-                {/*<div>*/}
-                {/*    <b>Contacts</b>: {Object.keys(profile.contacts).map(key => {*/}
-                {/*        return <Contact key={key} contactTitle={key} contactValue={profile.contacts[key]}/>*/}
-                {/*    }*/}
-                {/*)}*/}
-                {/*</div>*/}
-            </form>
-
-        )
-        }
-    />
-)
-
-export default ProfileDataForm
+export default ProfileDataReduxForm

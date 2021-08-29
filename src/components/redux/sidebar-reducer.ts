@@ -1,5 +1,11 @@
-
-let initialState = {
+type SidebarType = {
+    path: string
+    page: string
+}
+type InitialStateType = {
+    sidebar: Array<SidebarType>
+}
+let initialState: InitialStateType = {
     sidebar:[
         {path: '/profile' , page: 'Profile' },
         {path: '/dialogs' , page:'Message' },
@@ -10,7 +16,7 @@ let initialState = {
     ]
 }
 
-const sidebarReducer = (state = initialState, action) => {
+const sidebarReducer = (state = initialState, action: any) => {
     return state;
 }
 export default sidebarReducer;
