@@ -1,12 +1,8 @@
 import {profileAPI, ResultCodesEnum} from "../../api/api";
 import {PhotosType, PostType, ProfileType} from "../../types/types";
 import {stopSubmit} from "redux-form";
+import {InferActionsTypes} from "./redux-store";
 
-const ADD_POST = 'ADD_POST';
-const SET_USER_PROFILE = 'SET_USER_PROFILE';
-const SET_STATUS = 'SET_STATUS';
-const DELETE_POST = 'DELETE_POST';
-const SAVE_PHOTO_SUCCESS = 'SAVE_PHOTO_SUCCESS';
 
 
 let initialState = {
@@ -20,9 +16,9 @@ let initialState = {
     status: ""
 };
 
-const profileReducer = (state = initialState, action: any) => {
+const profileReducer = (state = initialState, action: ActionTypes) => {
     switch (action.type) {
-        case ADD_POST:
+        case 'ADD_POST':
             let newPost = {
                 id: 5,
                 message: action.post,
@@ -33,16 +29,16 @@ const profileReducer = (state = initialState, action: any) => {
             stateCopy.posts.push(newPost);
             return stateCopy
         }
-        case SET_USER_PROFILE: {
+        case 'SET_USER_PROFILE': {
             return {...state, profile: action.profile}
         }
-        case DELETE_POST: {
+        case 'DELETE_POST': {
             return {...state, posts: state.posts.filter(p => p.id != action.postId)}
         }
-        case SET_STATUS: {
+        case 'SET_STATUS': {
             return {...state, status: action.status}
         }
-        case SAVE_PHOTO_SUCCESS: {
+        case 'SAVE_PHOTO_SUCCESS': {
             return {...state, profile: {...state.profile, photos: action.photos}}
         }
         default:
@@ -50,21 +46,21 @@ const profileReducer = (state = initialState, action: any) => {
     }
 };
 
-type AddPostActionCreatorActionType = { type: typeof ADD_POST, post: string }
-type SetUserProfileActionType = { type: typeof SET_USER_PROFILE, profile: ProfileType }
-type SetStatusActionType = { type: typeof SET_STATUS, status: string }
-type DeletePostActionType = { type: typeof DELETE_POST, postId: number }
-type SavePhotoSuccessActionType = { type: typeof SAVE_PHOTO_SUCCESS, photos: PhotosType }
+type ActionTypes = InferActionsTypes<typeof actions>
 
-export let addPostActionCreator = (value: string): AddPostActionCreatorActionType => ({type: ADD_POST, post: value});
-export let setUserProfile = (profile: ProfileType): SetUserProfileActionType => ({type: SET_USER_PROFILE, profile});
-export let setStatus = (status: string): SetStatusActionType => ({type: SET_STATUS, status});
-export let deletePost = (postId: number): DeletePostActionType => ({type: DELETE_POST, postId});
-export let savePhotoSuccess = (photos: PhotosType): SavePhotoSuccessActionType => ({type: SAVE_PHOTO_SUCCESS, photos});
+export const actions = {
+    addPostActionCreator: (value: string)=> ({type: 'ADD_POST', post: value} as const),
+    setUserProfile: (profile: ProfileType)=> ({type: 'SET_USER_PROFILE', profile} as const),
+    setStatus: (status: string)=> ({type: 'SET_STATUS', status} as const),
+    deletePost: (postId: number)=> ({type: 'DELETE_POST', postId} as const),
+    savePhotoSuccess: (photos: PhotosType)=> ({type: 'SAVE_PHOTO_SUCCESS', photos} as const)
+}
+
+
 
 export const getUserProfile = (userId: number) => async (dispatch: any) => {
     let data = await profileAPI.getUserProfile(userId);
-    dispatch(setUserProfile(data));
+    dispatch(actions.setUserProfile(data));
 };
 
 export const saveProfile = (profile: ProfileType) => async (dispatch: any, getState: any) => {
@@ -81,7 +77,7 @@ export const saveProfile = (profile: ProfileType) => async (dispatch: any, getSt
 
 export const getUserStatus = (userId: number) => async (dispatch: any) => {
     let data = await profileAPI.getUserStatus(userId);
-    dispatch(setStatus(data));
+    dispatch(actions.setStatus(data));
 };
 
 
@@ -89,7 +85,7 @@ export const updateStatus = (status: string) => async (dispatch: any) => {
     try {
         let data = await profileAPI.updateStatus(status);
         if (data.resultCode === ResultCodesEnum.Success) {
-            dispatch(setStatus(status));
+            dispatch(actions.setStatus(status));
         }
     } catch (error) {
         console.log(error.message)
@@ -98,7 +94,7 @@ export const updateStatus = (status: string) => async (dispatch: any) => {
 export const savePhoto = (file: any) => async (dispatch: any) => {
     let data = await profileAPI.savePhoto(file);
     if (data.resultCode === ResultCodesEnum.Success) {
-        dispatch(savePhotoSuccess(data.data.photos));
+        dispatch(actions.savePhotoSuccess(data.data.photos));
     }
 };
 
