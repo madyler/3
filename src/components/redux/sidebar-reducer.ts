@@ -1,10 +1,4 @@
-type SidebarType = {
-    path: string
-    page: string
-}
-type InitialStateType = {
-    sidebar: Array<SidebarType>
-}
+
 let initialState: InitialStateType = {
     sidebar:[
         {path: '/profile' , page: 'Profile' },
@@ -19,8 +13,14 @@ let initialState: InitialStateType = {
 const sidebarReducer = (state = initialState) => {
     return state;
 }
-export default sidebarReducer;
+export default sidebarReducer
 
-
+type SidebarType = {
+    path: string
+    page: string
+}
+type InitialStateType = {
+    sidebar: Array<SidebarType>
+}
 
 
