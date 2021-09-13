@@ -5,7 +5,7 @@ import Preloader from "../commons/Preloader/Preloader";
 import {
     follow, unfollow, requestUsers
 } from "../redux/users-reducer";
-import {withAuthRedirect} from "../../hoc/AuthRedirect";
+import {withAuthRedirect} from "../../hoc/withAuthRedirect";
 import {compose} from "redux";
 import {
     getCurrentPage,
@@ -17,6 +17,7 @@ import {
 } from "../redux/users-selector";
 import {UserType} from "../../types/types";
 import {AppStateType} from "../redux/redux-store";
+import {RouteComponentProps} from "react-router-dom";
 
 type MapStatePropsType = {
     currentPage: number
@@ -78,11 +79,13 @@ const mapStateToProps = (state: AppStateType): MapStatePropsType => {
 }
 
 export default compose(
-    withAuthRedirect,
+  //withAuthRedirect,
     //TStateProps = {}, TDispatchProps = {}, TOwnProps = {}, State = DefaultState
-    connect<MapStatePropsType, MapDispatchPropsType, OwnPropsType, AppStateType>(mapStateToProps, {
+    connect
+    //<MapStatePropsType, MapDispatchPropsType, OwnPropsType, AppStateType>
+    (mapStateToProps, {
         follow,
         unfollow,
         getUsers: requestUsers
     })
-)(UsersContainer);
+)(UsersContainer)

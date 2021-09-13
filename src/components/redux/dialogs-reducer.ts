@@ -1,6 +1,6 @@
 import {InferActionsTypes} from "./redux-store";
 
-export const actions = {addMessageActionCreator: (value: string) => ({type: 'SN/DIALOGS/SEND_MESSAGE', text: value} as const)}
+export const actions = {sendMessage: (value: string) => ({type: 'SN/DIALOGS/SEND_MESSAGE', text: value} as const)}
 
 let initialState = {
     messages: [
@@ -58,13 +58,13 @@ const dialogsReducer = (state = initialState, action: ActionsType):InitialStateT
 export default dialogsReducer;
 
 export type InitialStateType = typeof initialState
-type ActionsType = InferActionsTypes<typeof actions>
-type DialogType = {
+export type ActionsType = InferActionsTypes<typeof actions>
+export type DialogType = {
     id: number
     name: string
     ava: string
 }
-type MessageType = {
+export type MessageType = {
     id: number
     message: string
 }

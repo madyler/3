@@ -21,7 +21,7 @@ const profileReducer = (state = initialState, action: ActionsType) => {
         case 'SN/PROFILE/ADD_POST':
             let newPost = {
                 id: 5,
-                message: action.post,
+                message: action.newPostText,
                 likesCount: 0
             };
         {
@@ -47,7 +47,7 @@ const profileReducer = (state = initialState, action: ActionsType) => {
 }
 
 export const actions = {
-    addPostActionCreator: (value: string) => ({type: 'SN/PROFILE/ADD_POST', post: value} as const),
+    addPostActionCreator: (value: string) => ({type: 'SN/PROFILE/ADD_POST', newPostText: value} as const),
     setUserProfile: (profile: any) => ({type: 'SN/PROFILE/SET_USER_PROFILE', profile} as const),
     setStatus: (status: string) => ({type: 'SN/PROFILE/SET_STATUS', status} as const),
     deletePost: (postId: number) => ({type: 'SN/PROFILE/DELETE_POST', postId} as const),
@@ -100,6 +100,6 @@ export const savePhoto = (file: File): ThunkType => async (dispatch) => {
 
 export default profileReducer
 
-type ActionsType = InferActionsTypes<typeof actions>
+export type ActionsType = InferActionsTypes<typeof actions>
 type ThunkType = BaseThunkType<ActionsType | FormAction>
 

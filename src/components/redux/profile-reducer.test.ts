@@ -9,8 +9,7 @@ let state = {
         {id: 4, message: 'Congratulates!', likesCount: 2}
     ],
     profile: null as ProfileType | null,
-    status: "",
-    newPostText: ''
+    status: ""
 };
 
 it('length of posts should be incremented', () => {

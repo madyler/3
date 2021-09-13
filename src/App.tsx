@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {Component} from 'react';
 import {BrowserRouter, Route, withRouter, Switch, Redirect} from 'react-router-dom';
 import './App.css';
 import Music from './components/Music/Music';
@@ -11,17 +11,23 @@ import {connect, Provider} from "react-redux";
 import {initializeApp} from "./components/redux/app-reducer";
 import Preloader from "./components/commons/Preloader/Preloader";
 import {compose} from "redux";
-import store from "./components/redux/redux-store";
+import store, {AppStateType} from "./components/redux/redux-store";
 import {withSuspense} from "./hoc/withSuspense";
 import UsersContainer from "./components/Users/UsersContainer";
 
 const ProfileContainer = React.lazy(() => import('./components/Profile/ProfileContainer'));
 const DialogsContainer = React.lazy(() => import('./components/Dialogs/DialogsContainer'));
+const SuspendedDialogs = withSuspense(DialogsContainer)
+const SuspendedProfile = withSuspense(ProfileContainer)
 
-class App extends React.Component {
-    catchAllUnhandledErrors = (props) => {
-        console.log(props)
-        console.log(props.reason.message)
+type MapPropsType = ReturnType<typeof mapStateToProps>
+type DispatchPropsType = {initializeApp: () => void}
+
+class App extends Component<MapPropsType & DispatchPropsType, any> {
+    catchAllUnhandledErrors = (e: PromiseRejectionEvent) => {
+        alert("Some error occurred")
+        // console.log(props.reason.message)
+        //console.error(promiseRejectionEvent)
     }
     componentDidMount() {
         this.props.initializeApp()
@@ -42,12 +48,12 @@ class App extends React.Component {
                 <div className='app-wrapper-content'>
                     <Switch>
                         <Route exact path='/' render={() => <Redirect to={'/profile'}/>}/>
-                        <Route path='/dialogs' render={withSuspense(DialogsContainer)}/>
-                        <Route path='/profile/:userId?' render={withSuspense(ProfileContainer)}/>
+                        <Route path='/dialogs' render={() => <SuspendedDialogs/>}/>
+                        <Route path='/profile/:userId?' render={() => <SuspendedProfile/>}/>
                         <Route path='/news' render={() => < News/>}/>
                         <Route path='/settings' render={() => < Settings/>}/>
                         <Route path='/music' render={() => < Music/>}/>
-                        <Route path='/users' render={() => <UsersContainer pageTitle={"Самураи"}/>}/>
+                        <Route path='/users' render={() => < UsersContainer pageTitle={"Самураи"}/>}/>
                         <Route path='/login' render={() => < Login/>}/>
                         <Route path='*' render={() => <div className='app-component'>404 NOT FOUND</div>}/>
                     </Switch>
@@ -57,14 +63,14 @@ class App extends React.Component {
     }
 }
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = (state: AppStateType) => ({
     initialized: state.app.initialized
 })
-const AppContainer = compose(
+const AppContainer = compose<React.ComponentType>(
     withRouter,
-    connect(mapStateToProps, {initializeApp}))(App);
+    connect(mapStateToProps, {initializeApp}))(App)
 
-const SamuraiJSApp = () => {
+const SamuraiJSApp: React.FC = () => {
     return <React.StrictMode>
         <BrowserRouter>
             <Provider store={store}>

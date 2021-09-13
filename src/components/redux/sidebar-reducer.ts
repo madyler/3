@@ -1,13 +1,13 @@
 
-let initialState: InitialStateType = {
+let initialState: InitialSidebarStateType = {
     sidebar:[
-        {path: '/profile' , page: 'Profile' },
-        {path: '/dialogs' , page:'Message' },
-        {path: '/news' , page:'News' },
-        {path: '/music' , page:'Music' },
-        {path: '/users' , page:'Users' },
-        {path: '/settings' , page:'Settings'}
-    ]
+        {id: 1, path: '/profile' , page: 'Profile' },
+        {id: 2, path: '/dialogs' , page:'Message' },
+        {id: 3, path: '/news' , page:'News' },
+        {id: 4, path: '/music' , page:'Music' },
+        {id: 5, path: '/users' , page:'Users' },
+        {id: 6, path: '/settings' , page:'Settings'}
+    ] as Array<SidebarType>
 }
 
 const sidebarReducer = (state = initialState) => {
@@ -15,11 +15,12 @@ const sidebarReducer = (state = initialState) => {
 }
 export default sidebarReducer
 
-type SidebarType = {
+export type SidebarType = {
+    id: number
     path: string
     page: string
 }
-type InitialStateType = {
+export type InitialSidebarStateType = {
     sidebar: Array<SidebarType>
 }
 
