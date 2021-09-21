@@ -1,4 +1,3 @@
-import React from 'react';
 import MyPosts, {DispatchPropsType, MapPropsType} from "./MyPosts";
 import {actions} from "../../redux/profile-reducer";
 import {connect} from "react-redux";

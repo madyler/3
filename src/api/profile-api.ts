@@ -6,6 +6,7 @@ export type SavePhotoResponseDataType = {
 }
 
 export const profileAPI = {
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     getUserProfile<ProfileType>(userId: number | null) {
         return instance.get(`profile/${userId}`).then(res => res.data)
     },

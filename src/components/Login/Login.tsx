@@ -6,7 +6,7 @@ import {Redirect} from "react-router-dom";
 import {maxLengthCreator, required} from "../../utils/validators/validators";
 import {createField, Input} from "../commons/FormsControls/FormControl";
 import style from "../commons/FormsControls/FormsControls.module.css";
-import {InjectedFormProps, reduxForm, WrappedFieldProps} from "redux-form";
+import {InjectedFormProps, reduxForm} from "redux-form";
 import {AppStateType} from "../redux/redux-store";
 
 const maxLength20 = maxLengthCreator(20)
@@ -25,7 +25,7 @@ const LoginForm: React.FC<LoginFormOwnPropsType & InjectedFormProps<LoginFormVal
                 {props.error}
             </div>
             }
-            {props.captchaUrl && <img src={props.captchaUrl}/>}
+            {props.captchaUrl && <img src={props.captchaUrl} alt={''}/>}
             {props.captchaUrl && createField<LoginFormValuesTypeKeys>('Symbols from image',
                 'captcha', [required], Input, {}, 'captcha'
             )}

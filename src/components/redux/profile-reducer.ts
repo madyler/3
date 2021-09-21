@@ -33,7 +33,7 @@ const profileReducer = (state = initialState, action: ActionsType) => {
             return {...state, profile: action.profile}
         }
         case 'SN/PROFILE/DELETE_POST': {
-            return {...state, posts: state.posts.filter(p => p.id != action.postId)}
+            return {...state, posts: state.posts.filter(p => p.id !== action.postId)}
         }
         case 'SN/PROFILE/SET_STATUS': {
             return {...state, status: action.status}

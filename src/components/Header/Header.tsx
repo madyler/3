@@ -12,7 +12,8 @@ export type DispatchPropsType = {
 
 const Header: React.FC<MapPropsType & DispatchPropsType> = (props) => {
     return <header className={s.header}>
-        <img src='https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR1K_40DbvsDK8kukz4tEGuwDBRlkapCS2pdQ&usqp=CAU'/>
+        <img src='https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR1K_40DbvsDK8kukz4tEGuwDBRlkapCS2pdQ&usqp=CAU'
+             alt={''}/>
 
         <div className={s.loginBlock}>
             {props.isAuth

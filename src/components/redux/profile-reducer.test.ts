@@ -21,7 +21,7 @@ it('length of posts should be incremented', () => {
     expect(newState.posts[4].message).toBe("it-kamasutra.com");
 });
 
-it('after deleting length of message should be decremen', () => {
+it('after deleting length of message should be decrement', () => {
     // 1. test data
     let action = actions.deletePost(1);
     // 2. action

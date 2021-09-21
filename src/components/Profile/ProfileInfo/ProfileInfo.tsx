@@ -38,7 +38,7 @@ const ProfileInfo: React.FC<ProfileInfoPropsType> = ({profile, status, updateSta
         <div>
             <div className={s.descriptionBlock}>
 
-                <img src={profile.photos.large || defaultUserPhoto}/>
+                <img src={profile.photos.large || defaultUserPhoto} alt={''}/>
                 {isOwner && <input type={"file"} onChange={onMainPhotoSelector}/>}
 
 
