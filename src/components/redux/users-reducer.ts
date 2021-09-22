@@ -97,10 +97,10 @@ const _followUnfollowFlow = async (dispatch: Dispatch<ActionsTypes>, userId: num
                                    actionCreator: (userId: number) => ActionsTypes) => {
     dispatch(actions.toggleFollowingProgress(true, userId))
     let response = await apiMethod(userId)
-    if (response){
+
     if (response.resultCode === ResultCodesEnum.Success) {
         dispatch(actionCreator(userId))
-    }}
+    }
     dispatch(actions.toggleFollowingProgress(false, userId))
 }
 

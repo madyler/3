@@ -6,14 +6,14 @@ import News from './components/News/News';
 import Settings from './components/Settings/Settings';
 import NavbarContainer from "./components/Navbar/NavbarContainer";
 import HeaderContainer from "./components/Header/HeaderContainer";
-import Login from "./components/Login/Login";
+import {LoginPage} from "./components/Login/LoginPage";
 import {connect, Provider} from "react-redux";
 import {initializeApp} from "./components/redux/app-reducer";
 import Preloader from "./components/commons/Preloader/Preloader";
 import {compose} from "redux";
 import store, {AppStateType} from "./components/redux/redux-store";
 import {withSuspense} from "./hoc/withSuspense";
-import UsersContainer from "./components/Users/UsersContainer";
+import {UsersPage} from "./components/Users/UsersContainer";
 
 const ProfileContainer = React.lazy(() => import('./components/Profile/ProfileContainer'));
 const DialogsContainer = React.lazy(() => import('./components/Dialogs/DialogsContainer'));
@@ -53,8 +53,8 @@ class App extends Component<MapPropsType & DispatchPropsType, any> {
                         <Route path='/news' render={() => < News/>}/>
                         <Route path='/settings' render={() => < Settings/>}/>
                         <Route path='/music' render={() => < Music/>}/>
-                        <Route path='/users' render={() => < UsersContainer pageTitle={"Самураи"}/>}/>
-                        <Route path='/login' render={() => < Login/>}/>
+                        <Route path='/users' render={() => < UsersPage pageTitle={"Самураи"}/>}/>
+                        <Route path='/login' render={() => < LoginPage/>}/>
                         <Route path='*' render={() => <div className='app-component'>404 NOT FOUND</div>}/>
                     </Switch>
                 </div>
