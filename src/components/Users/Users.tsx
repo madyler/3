@@ -1,5 +1,4 @@
 import React, {useEffect} from 'react'
-import Paginator from '../commons/Paginator/Paginator'
 import User from './User'
 import {UsersSearchForm} from './UsersSearchForm'
 import {FilterType, followThunk, requestUsers, unfollowThunk} from '../redux/users-reducer'
@@ -13,10 +12,15 @@ import {
 } from '../redux/users-selector'
 import {useHistory} from 'react-router-dom'
 import * as queryString from 'querystring'
+import {Pagination} from 'antd'
+import 'antd/dist/antd.css'
+//import Paginator from '../commons/Paginator/Paginator'
+
 
 type PropsType = {}
-
 type QueryParamsType = { term?: string, friend?: string, page?: string }
+
+
 export const Users: React.FC<PropsType> = (props) => {
 
     const pageSize = useSelector(getPageSize)
@@ -29,11 +33,12 @@ export const Users: React.FC<PropsType> = (props) => {
     const dispatch = useDispatch()
     const history = useHistory()
 
+    let actualPage = currentPage
 
     useEffect(() => {
         const parsed = queryString.parse(history.location.search.substr(1)) as QueryParamsType
 
-        let actualPage = currentPage
+
         let actualFilter = filter
 
         if (!!parsed.page) actualPage = Number(parsed.page)
@@ -62,14 +67,11 @@ export const Users: React.FC<PropsType> = (props) => {
         if (filter.friend !== null) query.friend = String(filter.friend)
         if (currentPage !== 1) query.page = String(currentPage)
 
-
-
         history.push({
-            pathname: '/users',
+            pathname: '/developers',
             search: queryString.stringify(query)
         })
     }, [filter, currentPage])
-
 
     const onPageChanged = (pageNumber: number) => {
         dispatch(requestUsers(pageNumber, pageSize, filter))
@@ -88,11 +90,14 @@ export const Users: React.FC<PropsType> = (props) => {
 
         <UsersSearchForm onFilterChanged={onFilterChanged}/>
 
-        <Paginator pageSize={pageSize}
-                   onPageChanged={onPageChanged}
-                   currentPage={currentPage}
-                   totalItemsCount={totalUsersCount}
-        />
+        <Pagination showQuickJumper size="small" defaultCurrent={actualPage}
+                    total={totalUsersCount} onChange={onPageChanged} defaultPageSize={50}/>
+       <br/>
+        {/*<Paginator pageSize={pageSize}*/}
+        {/*           onPageChanged={onPageChanged}*/}
+        {/*           currentPage={currentPage}*/}
+        {/*           totalItemsCount={totalUsersCount}*/}
+        {/*/>*/}
         <div>
             {users.map(u => <User key={u.id}
                                   user={u}
