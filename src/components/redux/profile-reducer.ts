@@ -87,6 +87,7 @@ export const updateStatus = (status: string): ThunkType => async (dispatch) => {
             dispatch(actions.setStatus(status))
         }
     } catch (error) {
+        // @ts-ignore
         console.log(error.message)
     }
 }
